@@ -45,7 +45,7 @@ const Login = () => {
         if (loginError) {
             toast.error(loginData.message || 'Log In Failed')
         }
-    }, [loginIsLoading, registerIsLoading, loginData, registerData, loginError, registerError])
+    }, [loginIsLoading, registerIsLoading, loginData, registerData, loginError, registerError]);
 
     return (
         <div className="flex w-full max-w-sm flex-col gap-6">
