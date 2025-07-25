@@ -1,4 +1,4 @@
-import { School } from 'lucide-react'
+import { Menu, School } from 'lucide-react'
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -10,6 +10,14 @@ import {
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import DarkMode from '../DarkMode'
+import {
+    Sheet,
+    SheetContent,
+    SheetDescription,
+    SheetHeader,
+    SheetTitle,
+    SheetTrigger,
+} from "@/components/ui/sheet"
 
 
 const Navbar = () => {
@@ -51,8 +59,36 @@ const Navbar = () => {
                     <DarkMode />
                 </div>
             </div>
+            {/* Mobile Device */}
+            <div className='flex md:hidden items-center justify-between px-4 h-full'>
+                <h1 className='font-extrabold text-2xl'>E-Learning</h1>
+                <MobileNavbar />
+            </div>
         </div>
     )
 }
 
 export default Navbar;
+
+const MobileNavbar = () => {
+    return (
+        <Sheet>
+            <SheetTrigger>
+                <Button size='icon' className='rounded-full bg-gray-200 hover:bg-gray-200' variant='outline'>
+                    <Menu />
+                </Button>
+            </SheetTrigger>
+            <SheetContent className='flex flex-col'>
+                <SheetHeader className='flex flex-row items-center justify-between mt-2'>
+                    <SheetTitle>E - Learning</SheetTitle>
+                    <DarkMode />
+                </SheetHeader>
+                <nav className='flex flex-col space-y-4'>
+                    <span>My Learning</span>
+                    <span>Edit Profile</span>
+                    <span>Log Out</span>
+                </nav>
+            </SheetContent>
+        </Sheet>
+    )
+}
