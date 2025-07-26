@@ -1,12 +1,32 @@
+import { createBrowserRouter } from "react-router-dom"
 import Navbar from "./components/Navbar"
 import Login from "./pages/Login"
+import HeroSection from "./pages/student/HeroSection"
+import MainLayout from "./layout/MainLayout"
+
+const appRouter = createBrowserRouter([
+  {
+    path: '/',
+    element: <MainLayout />,
+    children: [
+      {
+        path: '/',
+        element: <>
+          <HeroSection />
+          {/* <Courses /> */}
+        </>
+      }
+    ]
+  }
+])
 
 function App() {
   return (
-    <div className="flex min-h-svh flex-col items-center justify-center">
+    <main>
       <Navbar />
+      <HeroSection />
       <Login />
-    </div>
+    </main>
   )
 }
 

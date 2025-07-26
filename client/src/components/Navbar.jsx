@@ -13,10 +13,9 @@ import DarkMode from '../DarkMode'
 import {
     Sheet,
     SheetContent,
-    SheetDescription,
     SheetHeader,
     SheetTitle,
-    SheetTrigger,
+    SheetTrigger
 } from "@/components/ui/sheet"
 
 
@@ -74,19 +73,20 @@ const MobileNavbar = () => {
     return (
         <Sheet>
             <SheetTrigger>
-                <Button size='icon' className='rounded-full bg-gray-200 hover:bg-gray-200' variant='outline'>
-                    <Menu />
-                </Button>
+                {/* <div size='icon' className='rounded-full bg-gray-200 hover:bg-gray-200' variant='outline'> */}
+                <Menu />
+                {/* </div> */}
             </SheetTrigger>
             <SheetContent className='flex flex-col'>
-                <SheetHeader className='flex flex-row items-center justify-between mt-2'>
-                    <SheetTitle>E - Learning</SheetTitle>
+                <SheetHeader className='flex flex-row items-center justify-between mt-10'>
+                    <SheetTitle className='font-bold'>E - Learning</SheetTitle>
                     <DarkMode />
                 </SheetHeader>
-                <nav className='flex flex-col space-y-4'>
+                <nav className='flex flex-col items-center justify-between space-y-4'>
+                    <span>Dashboard</span>
                     <span>My Learning</span>
                     <span>Edit Profile</span>
-                    <span>Log Out</span>
+                    <Button>Log Out</Button>
                 </nav>
             </SheetContent>
         </Sheet>
