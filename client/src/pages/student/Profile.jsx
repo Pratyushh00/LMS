@@ -1,4 +1,3 @@
-import React from 'react'
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
     Dialog,
@@ -14,13 +13,45 @@ import { Label } from "@/components/ui/label";
 import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Course from './Course';
-import { useLoadUserQuery } from '../../features/api/authApi';
+import { useLoadUserQuery, useUpdateUserMutation } from '../../features/api/authApi';
+import { useState, useEffect } from 'react';
+import { toast } from "sonner";
 
 const Profile = () => {
-    const { data, isLoading } = useLoadUserQuery();
-    if (isLoading) return <h1>Profile loading...</h1>
-    console.log(data)
+    const [name, setName] = useState('');
+    const [profilePhoto, setProfilephoto] = useState('');
+    const [open, setOpen] = useState(false);
+
+    const { data, isLoading, refetch } = useLoadUserQuery();
+    const [updateUser, { data: updateUserData, isLoading: updateuserisLoading, error, isSuccess }] = useUpdateUserMutation();
+
+    useEffect(() => {
+        if (isSuccess) {
+            toast.success(updateUserData?.message || "Profile updated successfully");
+            setOpen(false);
+            refetch();
+        }
+        if (error) {
+            toast.error(error.message || "Update failed");
+        }
+    }, [isSuccess, error]);
+
+    if (isLoading) return <h1>Profile loading...</h1>;
     const { user } = data;
+
+    const onChangehandler = (e) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            setProfilephoto(file)
+        }
+    }
+
+    const updateUserhandler = async () => {
+        const formData = new FormData();
+        formData.append('name', name);
+        formData.append('profilePhoto', profilePhoto);
+        await updateUser(formData);
+    };
 
     return (
         <div className="max-w-4xl mx-auto px-4 my-10">
@@ -60,7 +91,7 @@ const Profile = () => {
                             </span>
                         </h1>
                     </div>
-                    <Dialog>
+                    <Dialog open={open} onOpenChange={setOpen}>
                         <DialogTrigger asChild>
                             <Button size="sm" className="mt-2">
                                 Edit Profile
@@ -79,6 +110,8 @@ const Profile = () => {
                                     <Label>Name</Label>
                                     <Input
                                         type="text"
+                                        value={name}
+                                        onChange={(e) => setName(e.target.value)}
                                         placeholder="Name"
                                         className="col-span-3"
                                     />
@@ -87,15 +120,16 @@ const Profile = () => {
                                     <Label>Profile Photo</Label>
                                     <Input
                                         type="file"
+                                        onChange={onChangehandler}
                                         accept="image/*"
                                         className="col-span-3"
                                     />
                                 </div>
                             </div>
                             <DialogFooter>
-                                <Button diasbles={isLoading}>
+                                <Button diasbles={updateuserisLoading} onClick={updateUserhandler}>
                                     {
-                                        isLoading ? <><Loader2 className='mr-2 h-4 w-4 animate-spin' /> Please Wait</> : 'Save Changes'
+                                        updateuserisLoading ? <><Loader2 className='mr-2 h-4 w-4 animate-spin' /> Please Wait</> : 'Save Changes'
                                     }
                                 </Button>
                             </DialogFooter>

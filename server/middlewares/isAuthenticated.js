@@ -4,14 +4,14 @@ const isAuthenticated = async (req, res, next) => {
     try {
         const token = req.cookies.token;
         if (!token) {
-            return res.statuus(401).json({
+            return res.status(401).json({
                 message: 'User not Authorised',
                 success: false
             })
         }
         const decode = await jwt.verify(token, process.env.SECRET_KEY);
         if (!decode) {
-            return res.statuus(401).json({
+            return res.status(401).json({
                 message: 'Incorrect token',
                 success: false
             })
