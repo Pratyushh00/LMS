@@ -17,11 +17,23 @@ import {
     SheetTitle,
     SheetTrigger
 } from "@/components/ui/sheet"
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { useEffect } from 'react'
+import { useLogoutUserMutation } from '../features/api/authApi'
+import { useSelector } from 'react-redux'
 
 
 const Navbar = () => {
-    const user = true;
+    const { user } = useSelector(store => store.auth);
+    const [logoutUser, { data, isSuccess }] = useLogoutUserMutation();
+    const navigate = useNavigate();
+
+    const logouthandler = async () => {
+        await logoutUser();
+        isSuccess && toast.success(data?.message || "Logged Out successfully");
+        navigate('/login');
+    }
+
     return (
         <div className='h-16 dark:bg-[#0A0A0A] bg-white border-b dark:border-b-gray-800 border-b-gray-200 fixed top-0 left-0 right-0 duration-300 z-10'>
             {/* DeskTop */}
@@ -36,7 +48,7 @@ const Navbar = () => {
                         user ? (<DropdownMenu>
                             <DropdownMenuTrigger>
                                 <Avatar>
-                                    <AvatarImage src="https://github.com/shadcn.png" />
+                                    <AvatarImage src={user.photoUrl || "https://github.com/shadcn.png"} />
                                     <AvatarFallback>CN</AvatarFallback>
                                 </Avatar>
                             </DropdownMenuTrigger>
@@ -45,7 +57,7 @@ const Navbar = () => {
                                 <DropdownMenuSeparator />
                                 <DropdownMenuItem><Link to='my-learning'>My Learning</Link></DropdownMenuItem>
                                 <DropdownMenuItem><Link to='profile'>Edit Profile</Link></DropdownMenuItem>
-                                <DropdownMenuItem>Log Out</DropdownMenuItem>
+                                <DropdownMenuItem onClick={logouthandler}>Log Out</DropdownMenuItem>
                                 <DropdownMenuSeparator />
                                 <DropdownMenuItem>Dashboard</DropdownMenuItem>
                             </DropdownMenuContent>
