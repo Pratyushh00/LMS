@@ -1,6 +1,7 @@
 import { User } from "../models/user.model.js";
 import bcrypt from 'bcryptjs';
 import { generateToken } from "../utils/generateToken.js";
+import { deleteMediaFromCloudinary, uploadMedia } from "../utils/cloudinary.js";
 
 export const register = async (req, res) => {
     try {
@@ -108,6 +109,47 @@ export const getuserprofile = async (req, res) => {
         return res.status(500).json({
             success: fail,
             message: 'Failed to load user',
+            error
+        })
+    }
+}
+
+export const updateprofile = async (req, res) => {
+    try {
+        const userId = req.id;
+        const { name } = req.body;
+        const profilePhoto = req.file;
+
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({
+                message: 'User not found',
+                success: false
+            })
+        }
+        // extract the publicId of old image from url if it exists
+        if (user.photoUrl) {
+            const publicId = user.photoUrl.split('/').pop().split('.')[0]; // extracting publicId
+            deleteMediaFromCloudinary(publicId);
+        }
+
+        // Upload new photo
+        const cloudResponse = await uploadMedia(profilePhoto.path);
+        const photoUrl = cloudResponse.secure_url;
+        const updatedData = { name, photoUrl };
+
+        const updateduser = await User.findByIdAndUpdate(userId, updatedData, { new: true }.select('-password'));
+        return res.status(200).json({
+            success: true,
+            user: updateduser,
+            message: 'Profile updated successfully'
+        })
+
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({
+            success: fail,
+            message: 'Failed to update profile',
             error
         })
     }
