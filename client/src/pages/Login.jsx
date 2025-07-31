@@ -51,7 +51,7 @@ const Login = () => {
     }, [loginIsLoading, registerIsLoading, loginData, registerData, loginError, registerError]);
 
     return (
-        <div className="flex min-h-svh flex-col items-center justify-center">
+        <div className="flex min-h-svh flex-col items-center mt-25">
             <div className="flex w-full max-w-sm flex-col gap-6">
                 <Tabs defaultValue="login">
                     <TabsList>
