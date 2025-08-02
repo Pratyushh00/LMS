@@ -37,13 +37,13 @@ export const authApi = createApi({
                 url: 'logout',
                 method: 'GET'
             }),
-            // async onQueryStarted(_, { _, dispatch }) {
-            //     try {
-            //         dispatch(userLoggedOut());
-            //     } catch (error) {
-            //         console.log(error)
-            //     }
-            // }
+            async onQueryStarted(_, { queryFulfilled, dispatch }) {
+                try {
+                    dispatch(userLoggedOut());
+                } catch (error) {
+                    console.log(error)
+                }
+            }
         }),
         loadUser: builder.query({
             query: () => ({

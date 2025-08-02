@@ -21,6 +21,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useEffect } from 'react'
 import { useLogoutUserMutation } from '../features/api/authApi'
 import { useSelector } from 'react-redux'
+import { toast } from "sonner";
 
 
 const Navbar = () => {
@@ -58,13 +59,19 @@ const Navbar = () => {
                                 <DropdownMenuItem><Link to='my-learning'>My Learning</Link></DropdownMenuItem>
                                 <DropdownMenuItem><Link to='profile'>Edit Profile</Link></DropdownMenuItem>
                                 <DropdownMenuItem onClick={logouthandler}>Log Out</DropdownMenuItem>
-                                <DropdownMenuSeparator />
-                                <DropdownMenuItem>Dashboard</DropdownMenuItem>
+                                {
+                                    user.role === 'instructor' && (
+                                        <>
+                                            <DropdownMenuSeparator />
+                                            <DropdownMenuItem>Dashboard</DropdownMenuItem>
+                                        </>
+                                    )
+                                }
                             </DropdownMenuContent>
                         </DropdownMenu>) : (
                             <div className='flex items-center gap-2'>
-                                <Button variant="outline">Login</Button>
-                                <Button>Signup</Button>
+                                <Button variant="outline" onClick={() => navigate('/login')}>Login</Button>
+                                <Button onClick={() => navigate('/login')}>Signup</Button>
                             </div>
                         )
                     }
