@@ -1,71 +1,58 @@
-# Learning Management System (LMS) – MERN Stack
+# MERN LMS 🎓💻  
+A full‑stack Learning Management System that feels like a real product: create and sell courses, enroll, learn, track progress, and see revenue grow. Built on the MERN stack with secure auth, Stripe payments, Cloudinary media, and a slick, responsive UI.
 
-A full‑stack LMS focused on real‑world course selling and learning management. Built with MERN, it delivers a complete experience for learners, instructors, and admins — from course creation and payment to progress tracking and analytics.
+***
 
-## Demo
-- NOTE: Add links when available
-  - Live URL:
-  - Admin/Test Account:
-  - API Base URL:
-  - Demo Video/GIF:
+## ✨ Why I Built This
+As a front‑end engineer leveling up to full‑stack, I wanted more than a “hello world” CRUD app. This LMS tackles real workflows: course creation, lecture uploads, payments, progress tracking, dashboards, and role‑based access—all packaged with performance and DX best practices.
 
-## Table of Contents
-- Overview
-- Key Features
-- Tech Stack
-- Architecture & Modules
-- Security & Auth
-- Performance & UX
-- Getting Started
-- Environment Variables
-- Scripts
-- Folder Structure
-- Learning & Highlights
-- Roadmap (Future Updates)
-- Contributing
-- License
+***
 
-## Overview
-This LMS enables:
-- Learners to browse, purchase, and complete courses.
-- Instructors/admins to create, manage, and publish courses and lectures.
+## 🚀 Demo
+Add links when ready:
+- Live: 
+- Test/Admin:
+- API Base:
+- Demo Video/GIF:
 
-## Key Features
+***
 
-### Course Management & Viewing
-- Browse published courses (drafts hidden).
-- Course detail page with title, subtitle, creator, last update, enrolled count.
-- Search by course name/description and filter by category (e.g., Next.js, Data Science).
-- Course creation with title, subtitle, description (rich text), category, level (beginner/medium/advanced), price, and thumbnail.
-- Lecture management: add/edit/remove lectures; upload/update video; mark lecture as free preview.
-- Course status toggle (Published/Unpublished) based on lecture presence.
-- Lecture list with free/locked indicators and integrated video playback.
-- Track progress: mark lectures complete/incomplete; automatic course progress updates.
-- “My Learning” shows enrolled courses and progress.
+## 🔑 Features You’ll Actually Use
 
-### User Management & Authentication
-- Register, login, logout (HTTP‑only cookie JWT).
-- Edit profile (name, profile photo).
-- Protected routes for authenticated users and role‑based access (instructor/admin).
+### For Learners
+- Browse only Published courses (no drafts in the wild)
+- Search by name/description + filter by category (Next.js, Data Science, etc.)
+- Detailed course page: title, subtitle, creator, last updated, enrolled count
+- Lecture player with free/locked indicators and progress tracking
+- Mark lectures complete/incomplete; auto-updated course progress
+- “My Learning” hub with all enrolled courses
 
-### Payments & Orders
-- Stripe integration for secure course purchases.
-- Order flow with feedback (toasts), and post‑purchase enrollment.
+### For Instructors/Admins
+- Create/edit courses: title, subtitle, rich descriptions, level, category, price, thumbnail
+- Add/edit/remove lectures, upload/update videos, set “free preview”
+- Toggle course status: Published/Unpublished (enforced by lecture presence)
+- Admin Dashboard: total sales, total revenue, course progress chart, purchase overview
+- Centralized course/lecture management with protected routes
 
-### Admin Dashboard
-- Overview of purchased courses, total sales, and total revenue.
-- Course progress chart and insights for admins.
-- Manage courses and lectures centrally.
+### Security & Auth
+- JWT auth with HTTP‑only cookies (safer tokens)
+- Role‑based access (user, instructor, admin)
+- Bcrypt password hashing, validated inputs, CORS configured
 
-### UI/UX
-- Responsive design (mobile, tablet, desktop).
-- Light/Dark mode.
-- Skeletons for loading states.
-- Toast notifications for success/error.
-- Rich text editor for course descriptions.
-- Image/video previews before upload.
+### Payments & Media
+- Stripe for secure checkout and post‑purchase enrollment
+- Cloudinary for images/videos (upload previews, reliable streaming)
+- Multer pipeline for server‑side uploads
 
-## Tech Stack
+### UX That Feels Modern
+- Responsive (mobile/tablet/desktop)
+- Light/Dark mode
+- Skeleton loaders + toast notifications
+- Rich text editor for course descriptions
+
+***
+
+## 🧱 Tech Stack
 
 - Frontend:
   - React (Vite)
@@ -88,95 +75,103 @@ This LMS enables:
   - JSON Web Token (JWT) with HTTP‑only cookies
   - CORS, dotenv, nodemon
 
-## Architecture & Modules
+***
 
-- Client (SPA):
-  - Feature slices with Redux Toolkit.
+## 🧩 Architecture (What’s Under the Hood)
+
+- Client (SPA)
+  - Feature‑based slices with Redux Toolkit
   - RTK Query for data fetching, caching, and auto‑revalidation.
-  - Route‑based pages: Home, Course Detail, Lecture Viewer, My Learning, Dashboard, Profile, Auth.
-  - UI state: dark mode, skeleton loaders, toasts.
+  - Routes: Home, Course Detail, Lecture Viewer, My Learning, Dashboard, Profile, Auth
+  - Global UI state: dark/light theme, skeletons, toasts
 
-- Server:
-  - RESTful APIs for auth, users, courses, lectures, orders/payments.
-  - File upload pipeline: Multer -> Cloudinary -> persisted URLs in DB.
-  - Role-based guards (auth, instructor/admin).
-  - Web‑safe media streaming via Cloudinary URLs.
+- Server (REST)
+  - Modules: auth, users, courses, lectures, payments/orders, uploads
+  - Upload flow: Multer → Cloudinary → persisted URLs
+  - Guards: JWT auth + role checks (instructor/admin)
+  - Media streaming via Cloudinary URLs
 
-- Database (MongoDB):
-  - Users: profile, roles, purchased courses.
-  - Courses: metadata, price, status, thumbnail, lectures.
-  - Lectures: title, video URL, free/locked flag.
-  - Progress: completion by user/lecture.
-  - Orders/Payments: Stripe session IDs, status, totals.
+- Database (MongoDB)
+  - Users (profiles/roles/enrollments)
+  - Courses (metadata, price, status, thumbnail)
+  - Lectures (title, video URL, free/locked)
+  - Progress (user/lecture completion)
+  - Orders/Payments (Stripe session/status/totals)
 
-## Security & Auth
+***
 
-- JWT stored in HTTP‑only cookies to mitigate XSS token theft.
-- Bcrypt password hashing.
-- Role-based access control for instructor/admin.
-- CORS configured for client–server domains.
-- Validations on input and upload.
+## 🔐 Security Snapshot
+- HTTP‑only cookies for JWT auth → mitigates XSS token theft
+- Bcrypt for password hashing
+- Whitelisted CORS and validated payloads
+- Protected API routes + role‑based UI
 
-## Performance & UX
+***
 
-- RTK Query: request de‑duplication, caching, invalidation for snappy UI.
-- Tailwind + shadcn/ui for accessible, consistent components.
-- Skeletons and optimistic UX where appropriate.
-- Media offloaded to Cloudinary for reliable delivery.
-- Client‑side search/filtering plus backend query params.
+## ⚡ Performance & DX
+- RTK Query to dedupe requests and cache aggressively
+- Cloudinary offloads media for fast delivery
+- Tailwind + shadcn/ui for consistent, accessible components
+- Vite dev server + nodemon for smooth local development
+- Skeletons and optimistic UI to keep interactions snappy
 
-## Getting Started
+***
 
-Prerequisites:
-- Node.js >= 20.1.0
-- MongoDB connection URL
-- Stripe account & API keys
-- Cloudinary account (cloud name, API key/secret)
+## 🛠️ Getting Started
 
-1) Clone
-- git clone 
+Prereqs:
+- Node.js ≥ 20.1
+- MongoDB URI
+- Stripe keys
+- Cloudinary credentials
+
+1) Clone  
+- git clone   
 - cd 
 
-2) Install
-- cd client && npm install
+2) Install  
+- cd client && npm install  
 - cd ../server && npm install
 
 3) Environment
-Create .env files for both client (if needed) and server:
 
-Server .env:
+Server (.env)
 - PORT=5000
 - MONGODB_URI=your_mongodb_uri
 - JWT_SECRET=your_jwt_secret
 - COOKIE_NAME=auth_token
-- STRIPE_SECRET_KEY=sk_live_or_test
+- STRIPE_SECRET_KEY=sk_test_or_live
 - STRIPE_WEBHOOK_SECRET=whsec_...
 - CLOUDINARY_CLOUD_NAME=your_name
 - CLOUDINARY_API_KEY=your_key
 - CLOUDINARY_API_SECRET=your_secret
 - CLIENT_URL=http://localhost:5173
 
-Client .env (Vite):
+Client (.env)
 - VITE_API_BASE_URL=http://localhost:5000
-- VITE_STRIPE_PUBLISHABLE_KEY=pk_live_or_test
+- VITE_STRIPE_PUBLISHABLE_KEY=pk_test_or_live
 
 4) Run
 - Server: cd server && npm run dev
 - Client: cd client && npm run dev
-- Open client URL (Vite default: http://localhost:5173)
+- Open: http://localhost:5173
 
-## Scripts
+***
 
-Server:
-- npm run dev – start with nodemon
-- npm run start – production start
+## 📦 Scripts
 
-Client:
-- npm run dev – Vite dev
-- npm run build – production build
-- npm run preview – preview build
+Server
+- npm run dev — dev with nodemon
+- npm run start — prod start
 
-## Folder Structure
+Client
+- npm run dev — Vite dev
+- npm run build — prod build
+- npm run preview — preview build
+
+***
+
+## 🗂️ Folder Structure
 
 - root/
   - client/
@@ -198,17 +193,20 @@ Client:
       - config/
   - README.md
 
-## Learning & Highlights
+***
 
-- Built a production‑style MERN app handling end‑to‑end flows: auth, payments, media, and role‑based access.
-- Leveraged RTK Query for cache‑first UX, mutation invalidation, and fewer network calls.
-- Implemented HTTP‑only cookie auth to improve security posture.
-- Designed a flexible course/lecture schema to support previews, publishing states, and progress tracking.
-- Integrated Stripe for secure payments and Cloudinary for scalable media storage and delivery.
-- Delivered responsive, themeable UI with Tailwind and shadcn/ui; improved perceived performance with skeletons and toasts.
+## 🧠 What I Learned
+- Building a production‑style MERN app end‑to‑end (auth → payments → media → RBAC)
+- RTK Query: cache‑first data layer, fewer network calls, smooth UX
+- Secure JWT auth with HTTP‑only cookies and protected routes
+- Stripe checkout flows + web‑safe post‑purchase enrollment
+- Cloudinary media uploads/streaming at scale
+- Designing flexible course/lecture/progress schemas
+- Shipping responsive, themeable UI with modern patterns
 
-## Roadmap (Future Updates)
+***
 
+## 🗺️ Roadmap
 - TypeScript migration across client and server for stronger type safety.
 - Access control enhancements: instructor role separation, organization/teams, multi‑instructor courses.
 - Ratings & Reviews for courses; Q&A/Discussions per lecture.
@@ -219,7 +217,11 @@ Client:
 - Accessibility upgrades (WCAG), keyboard shortcuts, transcripts/subtitles.
 - CI/CD: automated tests (Jest/RTL), E2E (Cypress/Playwright), coverage reports, preview deployments.
 
+***
 
-Notes:
-- Replace placeholders (repo URLs, env names, demo accounts) with your actual values.
-- If you add screenshots or a short demo video/gif, include a “Screenshots” section to boost recruiter appeal.
+## 📬 Contact
+Pratyush Singh Rajawat  
+Email: pratyushsinghrajawat@gmail.com  
+LinkedIn: [linkedin.com/in/pratyush-singh-rajawat](https://www.linkedin.com/in/pratyush-singh-rajawat/)
+
+***
