@@ -1,11 +1,13 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
-import Navbar from "./components/Navbar"
 import Login from "./pages/Login"
 import HeroSection from "./pages/student/HeroSection"
 import MainLayout from "./layout/MainLayout"
 import Courses from "./pages/student/Courses"
 import MyLearning from "./pages/student/MyLearning"
 import Profile from "./pages/student/Profile"
+import Sidebar from "./pages/admin/Sidebar"
+import Dashboard from "./pages/admin/Dashboard"
+import CourseInfo from "./pages/admin/CourseInfo"
 
 const appRouter = createBrowserRouter([
   {
@@ -30,6 +32,21 @@ const appRouter = createBrowserRouter([
       {
         path: 'profile',
         element: <Profile />
+      },
+      // admin routes
+      {
+        path: 'admin',
+        element: <Sidebar />,
+        children: [
+          {
+            path: 'dashboard',
+            element: <Dashboard />
+          },
+          {
+            path: 'course',
+            element: <CourseInfo />
+          }
+        ]
       }
     ]
   }
