@@ -32,7 +32,7 @@ export const register = async (req, res) => {
     } catch (error) {
         console.log(error)
         return res.status(500).json({
-            success: fail,
+            success: false,
             message: 'Failed to register User',
             error
         })
@@ -55,8 +55,8 @@ export const login = async (req, res) => {
                 message: 'User does not exists with this Email Id'
             })
         }
-        const isCurrectPassword = await bcrypt.compare(password, user.password);
-        if (!isCurrectPassword) {
+        const isCorrectPassword = await bcrypt.compare(password, user.password);
+        if (!isCorrectPassword) {
             return res.status(400).json({
                 success: false,
                 message: 'Incorrect password'
@@ -67,8 +67,8 @@ export const login = async (req, res) => {
     } catch (error) {
         console.log(error)
         return res.status(500).json({
-            success: fail,
-            message: 'Failed to register User',
+            success: false,
+            message: 'Failed to Login User',
             error
         })
     }
@@ -83,7 +83,7 @@ export const logout = async (_, res) => {
     } catch (error) {
         console.log(error)
         return res.status(500).json({
-            success: fail,
+            success: false,
             message: 'Failed to Logout',
             error
         })
@@ -107,7 +107,7 @@ export const getuserprofile = async (req, res) => {
     } catch (error) {
         console.log(error)
         return res.status(500).json({
-            success: fail,
+            success: false,
             message: 'Failed to load user',
             error
         })
@@ -147,7 +147,7 @@ export const updateprofile = async (req, res) => {
     } catch (error) {
         console.log(error)
         return res.status(500).json({
-            success: fail,
+            success: false,
             message: 'Failed to update profile',
             error
         })

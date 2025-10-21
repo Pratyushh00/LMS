@@ -43,7 +43,7 @@ const Login = () => {
             navigate('/')
         }
         if (registerError) {
-            toast.error(registerData.message || 'Sign Up Failed')
+            toast.error(registerData.data.message || 'Sign Up Failed')
         }
         if (loginError) {
             toast.error(loginError.data.message || 'Log In Failed')

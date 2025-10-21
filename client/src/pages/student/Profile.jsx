@@ -23,7 +23,7 @@ const Profile = () => {
     const [open, setOpen] = useState(false);
 
     const { data, isLoading, refetch } = useLoadUserQuery();
-    const [updateUser, { data: updateUserData, isLoading: updateuserisLoading, error, isSuccess }] = useUpdateUserMutation();
+    const [updateUser, { data: updateUserData, isLoading: updateuserisLoading, isError, error, isSuccess }] = useUpdateUserMutation();
 
     useEffect(() => {
         if (isSuccess) {
@@ -31,7 +31,7 @@ const Profile = () => {
             setOpen(false);
             refetch();
         }
-        if (error) {
+        if (isError) {
             toast.error(error.message || "Update failed");
         }
     }, [isSuccess, error]);
@@ -45,6 +45,10 @@ const Profile = () => {
             setProfilephoto(file)
         }
     }
+
+    useEffect(() => {
+        refetch();
+    }, [])
 
     const updateUserhandler = async () => {
         const formData = new FormData();
@@ -140,7 +144,7 @@ const Profile = () => {
             <div>
                 <h1 className="font-medium text-lg">Courses you're enrolled in</h1>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 my-5">
-                    {user.enrolledCourses === 0 ? (
+                    {user.enrolledCourses.length === 0 ? (
                         <h1>You haven't enrolled in any courses yet</h1>
                     ) : (
                         user.enrolledCourses.map((course) =>
